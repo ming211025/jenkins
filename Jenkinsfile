@@ -8,10 +8,21 @@ pipeline {
     }
 
     stage('Test') {
-      steps {
-        sh '''sudo yum install -y httpd
+      parallel {
+        stage('Test') {
+          steps {
+            sh '''sudo yum install -y httpd
 '''
-        sh 'sudo systemctl start httpd'
+            sh 'sudo systemctl start httpd'
+          }
+        }
+
+        stage('test-1') {
+          steps {
+            sh 'ls -al'
+          }
+        }
+
       }
     }
 
